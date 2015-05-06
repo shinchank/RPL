@@ -8,8 +8,15 @@ package rpl;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,22 +27,23 @@ public class Gui extends javax.swing.JFrame {
     /**
      * Creates new form Gui
      */
+    private modelRPL model;
+
     public Gui() {
+        model = new modelRPL();
         initComponents();
-        DefaultListCellRenderer renderer =  (DefaultListCellRenderer)ListPenghuni.getCellRenderer();//Alignment Center  
+        DefaultListCellRenderer renderer = (DefaultListCellRenderer) ListPenghuni.getCellRenderer();//Alignment Center  
         renderer.setHorizontalAlignment(SwingConstants.LEFT); //Alignment Left Jlist
-        ScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0)); //Hide Scrollbar JScrollPanel
-        DefaultTableCellRenderer renderer1 = (DefaultTableCellRenderer)TabelPenghuni.getCellRenderer(0, 0);
+        ScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0)); //Hide Scrollbar JScrollPanel
+        DefaultTableCellRenderer renderer1 = (DefaultTableCellRenderer) TabelPenghuni.getCellRenderer(0, 0);
         renderer.setHorizontalAlignment(SwingConstants.LEFT); //Alignment Left Jlist
-        ScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0,0)); //Hide Scrollbar JScrollPanel
+        ScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0)); //Hide Scrollbar JScrollPanel
         PesanArea.setLineWrap(true);
-        ScrollPesan.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+        ScrollPesan.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         setView(true, false, false, false, false, false, false, false, false, false);
     }
 
-    public void setView(boolean login, boolean halamanUtama, boolean kData, boolean kPembayaran
-            ,boolean iData, boolean hData, boolean cData, boolean kirim, boolean bayar
-            ,boolean status){
+    public void setView(boolean login, boolean halamanUtama, boolean kData, boolean kPembayaran, boolean iData, boolean hData, boolean cData, boolean kirim, boolean bayar, boolean status) {
         //isinya panel semua
         PanelLogin.setVisible(login);
         PanelHalamanUtama.setVisible(halamanUtama);
@@ -48,6 +56,7 @@ public class Gui extends javax.swing.JFrame {
         PanelKonfirmasiPembayaran.setVisible(bayar);
         PanelStatusTransaksi.setVisible(status);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,6 +67,12 @@ public class Gui extends javax.swing.JFrame {
     private void initComponents() {
 
         Move = new javax.swing.JLabel();
+        PanelLogin = new javax.swing.JPanel();
+        tfUsername = new javax.swing.JTextField();
+        tfPassword = new javax.swing.JPasswordField();
+        btnMasuk = new javax.swing.JLabel();
+        LabelSalahLogin = new javax.swing.JLabel();
+        BG3 = new javax.swing.JLabel();
         PanelStatusTransaksi = new javax.swing.JPanel();
         btnBack6 = new javax.swing.JLabel();
         BG10 = new javax.swing.JLabel();
@@ -100,15 +115,9 @@ public class Gui extends javax.swing.JFrame {
         btnKirimPesan = new javax.swing.JLabel();
         btnKeluar = new javax.swing.JLabel();
         BG1 = new javax.swing.JLabel();
-        PanelLogin = new javax.swing.JPanel();
-        tfUsername = new javax.swing.JTextField();
-        tfPassword = new javax.swing.JPasswordField();
-        btnMasuk = new javax.swing.JLabel();
-        LabelSalahLogin = new javax.swing.JLabel();
-        BG3 = new javax.swing.JLabel();
         PanelInputDataPenghuni = new javax.swing.JPanel();
         tfNamaPenghuni = new javax.swing.JTextField();
-        tfNoHP1 = new javax.swing.JTextField();
+        tfNoKamar = new javax.swing.JTextField();
         tfNoHP = new javax.swing.JTextField();
         tfAsalPenghuni = new javax.swing.JTextField();
         btnInput = new javax.swing.JLabel();
@@ -119,7 +128,6 @@ public class Gui extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(350, 480));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(350, 480));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -134,6 +142,36 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Move, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 20));
+
+        PanelLogin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tfUsername.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        tfUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfUsername.setText("Nama Pengguna");
+        tfUsername.setToolTipText("Nama Pengguna");
+        tfUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        PanelLogin.add(tfUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 244, 270, 35));
+
+        tfPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        PanelLogin.add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 311, 270, 35));
+
+        btnMasuk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnMasukMouseReleased(evt);
+            }
+        });
+        PanelLogin.add(btnMasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 393, 120, 50));
+
+        LabelSalahLogin.setForeground(new java.awt.Color(212, 14, 14));
+        LabelSalahLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        PanelLogin.add(LabelSalahLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 355, 290, 20));
+
+        BG3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rpl/xlog in.JPG"))); // NOI18N
+        PanelLogin.add(BG3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        getContentPane().add(PanelLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         PanelStatusTransaksi.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -390,45 +428,15 @@ public class Gui extends javax.swing.JFrame {
 
         getContentPane().add(PanelHalamanUtama, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        PanelLogin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        tfUsername.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        tfUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfUsername.setText("Nama Pengguna");
-        tfUsername.setToolTipText("Nama Pengguna");
-        tfUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        PanelLogin.add(tfUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 244, 270, 35));
-
-        tfPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        PanelLogin.add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 311, 270, 35));
-
-        btnMasuk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnMasukMouseReleased(evt);
-            }
-        });
-        PanelLogin.add(btnMasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 393, 120, 50));
-
-        LabelSalahLogin.setForeground(new java.awt.Color(212, 14, 14));
-        LabelSalahLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        PanelLogin.add(LabelSalahLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 355, 290, 20));
-
-        BG3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rpl/xlog in.JPG"))); // NOI18N
-        PanelLogin.add(BG3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        getContentPane().add(PanelLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
         PanelInputDataPenghuni.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tfNamaPenghuni.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         tfNamaPenghuni.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         PanelInputDataPenghuni.add(tfNamaPenghuni, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 172, 190, 38));
 
-        tfNoHP1.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        tfNoHP1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        PanelInputDataPenghuni.add(tfNoHP1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 224, 73, 38));
+        tfNoKamar.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        tfNoKamar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        PanelInputDataPenghuni.add(tfNoKamar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 224, 73, 38));
 
         tfNoHP.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         tfNoHP.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -476,15 +484,42 @@ public class Gui extends javax.swing.JFrame {
 
     private void btnMasukMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMasukMouseReleased
         //Kalau Password dengan Usernamenya sesuai langsung ke menu utama
-        setView(false, true, false, false, false, false, false, false, false, false);
+        if (tfUsername.getText().equals("bapakkos") && tfPassword.getText().equals("kostan")) {
+            setView(false, true, false, false, false, false, false, false, false, false);
+        } else {
+            LabelSalahLogin.setText("Nama pengguna atau password salah");
+            tfUsername.setText("");
+            tfPassword.setText("");
+        }
     }//GEN-LAST:event_btnMasukMouseReleased
 
     private void btnInputMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInputMouseReleased
         //Untuk menginput data
+        Penghuni x = model.cariPenghuni(tfNamaPenghuni.getText());
+        if (x == null) {
+            Penghuni p = new Penghuni(tfNamaPenghuni.getText(), new Kamar(tfNoKamar.getText()), tfNoHP.getText(), tfAsalPenghuni.getText());
+            System.out.println(p.getNama());
+            model.addPenghuni(p);
+        } else {
+            //pemberitahuan kalau penghuni udah terdaftar
+            LabelSalahInputData.setText("Penghuni sudah terdaftar");
+            tfNamaPenghuni.setText("");
+            tfNoKamar.setText("");
+            tfNoHP.setText("");
+            tfNoKamar.setText("");
+        }
     }//GEN-LAST:event_btnInputMouseReleased
 
     private void btnHapusMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseReleased
-        //Untuk menghapus data
+        Penghuni x = model.cariPenghuni((String) ListPenghuni.getSelectedValue());
+        System.out.println((String)ListPenghuni.getSelectedValue());
+        if (x == null || x.equals("")) 
+            
+            //pemberitahuan kalau tidak ada penghuni dengan nama tsbt.
+        } else {
+            model.hapusPenghuni(x);
+        }
+        System.out.println(x.getNama());
     }//GEN-LAST:event_btnHapusMouseReleased
 
     private void btnKembaliPembayaranMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKembaliPembayaranMouseReleased
@@ -509,11 +544,21 @@ public class Gui extends javax.swing.JFrame {
 
     private void btnHapusDataPenghuniMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusDataPenghuniMouseReleased
         //ke panel hapus data
+        String[] list = model.queryviewhapus();
+        DefaultListModel dlm =  new DefaultListModel();
+        for (int i = 0; i < list.length; i++) {
+            dlm.addElement(list[i]);
+            i++;
+        }
+        ListPenghuni.setModel(dlm);
         setView(false, false, false, false, false, true, false, false, false, false);
     }//GEN-LAST:event_btnHapusDataPenghuniMouseReleased
 
     private void btnCekDataPenghuniMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCekDataPenghuniMouseReleased
         //ke panel cek data
+        String[][] data = model.queryview();
+        String[] columnNames = {"id penghuni", "nama penghuni", "asal penghuni", "no hp penghuni", "no kamar", "tanggal masuk"};
+        TabelPenghuni.setModel(new DefaultTableModel(data, columnNames));
         setView(false, false, false, false, false, false, true, false, false, false);
     }//GEN-LAST:event_btnCekDataPenghuniMouseReleased
 
@@ -531,8 +576,8 @@ public class Gui extends javax.swing.JFrame {
         //move frame
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-        
-        this.setLocation(x - xMouse, y - yMouse);        
+
+        this.setLocation(x - xMouse, y - yMouse);
     }//GEN-LAST:event_MoveMouseDragged
 
     private void MoveMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MoveMousePressed
@@ -585,7 +630,6 @@ public class Gui extends javax.swing.JFrame {
         setView(false, false, false, false, false, false, false, false, true, false);
     }//GEN-LAST:event_btnKonfirmasiPembayaranMouseReleased
 
-    
     /**
      * @param args the command line arguments
      */
@@ -619,6 +663,46 @@ public class Gui extends javax.swing.JFrame {
                 new Gui().setVisible(true);
             }
         });
+    }
+
+    public JLabel getBtnHapus() {
+        return btnHapus;
+    }
+
+    public JLabel getBtnHapusDataPenghuni() {
+        return btnHapusDataPenghuni;
+    }
+
+    public JLabel getBtnInput() {
+        return btnInput;
+    }
+
+    public JLabel getBtnInputDataPenghuni() {
+        return btnInputDataPenghuni;
+    }
+
+    public JTextField getTfAsalPenghuni() {
+        return tfAsalPenghuni;
+    }
+
+    public JTextField getTfNamaPenghuni() {
+        return tfNamaPenghuni;
+    }
+
+    public JTextField getTfNoHP() {
+        return tfNoHP;
+    }
+
+    public JTextField getTfNoKamar() {
+        return tfNoKamar;
+    }
+
+    public JPasswordField getTfPassword() {
+        return tfPassword;
+    }
+
+    public JTextField getTfUsername() {
+        return tfUsername;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -677,7 +761,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JTextField tfAsalPenghuni;
     private javax.swing.JTextField tfNamaPenghuni;
     private javax.swing.JTextField tfNoHP;
-    private javax.swing.JTextField tfNoHP1;
+    private javax.swing.JTextField tfNoKamar;
     private javax.swing.JPasswordField tfPassword;
     private javax.swing.JTextField tfUsername;
     // End of variables declaration//GEN-END:variables
